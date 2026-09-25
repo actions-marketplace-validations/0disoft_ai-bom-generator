@@ -1,8 +1,21 @@
 # Changelog
 
-## v0.7.2
+## v0.8.2
 
-Unreleased maintenance changes; published installation examples remain on v0.7.1.
+- Update the CI and Action uv toolchain to 0.12.15 and release-tooling CI to Bun 1.4.2.
+- Verify compatible SPDX outputs with the independent SPDX Python object model.
+- Align security support with 0.8.x and reject future supported-minor documentation drift.
+
+## v0.8.1
+
+- Retain supplier, download location and other unmapped preview properties in
+  standard comments alongside extension evidence in spdx-json-3.0.1 output.
+
+## v0.8.0
+
+- Add opt-in spdx-json-3.0.1 Core/Software/AI output with explicit BOM
+  authorship and a deterministic timezone-normalized creation timestamp.
+  Preserve the spdx-ai preview and retain extra evidence in standard comments.
 
 - Reuse SHA-256-verified SPDX validation resources across cases and distinguish
   network/resource integrity failures from schema and SHACL mapping failures.

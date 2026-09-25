@@ -123,6 +123,13 @@ fields instead of inventing missing metadata. The Action is published on
 
 ## CLI
 
+For the opt-in `spdx-json-3.0.1` compatibility format, declare `[spdx]`
+`creator_name`, `creator_type` (Person/Organization) and quoted `created`
+timestamp in `aibom.toml`. `--document-created` overrides the timestamp.
+Missing values are errors; neither current time nor user identity is inferred.
+See [mapping scope and migration](docs/contracts/spdx-ai.md).
+The existing `spdx-ai` partial preview is unchanged.
+
 ```text
 ai-bom --version
 ai-bom generate <model-directory> [--config <path>] --format <cyclonedx-json-1.7|spdx-ai> --output <bom.json> --warning-report <warnings.json> --summary <summary.json> [--manifest <manifest.json>] [--error-report <error.json>]
@@ -141,7 +148,7 @@ stale report at that requested path.
 - uses: actions/checkout@v7
 
 - id: ai-bom
-  uses: 0disoft/ai-bom-generator@v0.7.1
+  uses: 0disoft/ai-bom-generator@v0.8.2
   with:
     model-directory: .
     warnings: allow
@@ -156,7 +163,7 @@ stale report at that requested path.
     test "${{ steps.ai-bom.outputs.status }}" = "success"
 ```
 
-The action prepares Python 3.12 and pinned uv `0.11.28`, disables the setup-uv
+The action prepares Python 3.12 and the uv version declared in `action.yml`, disables the setup-uv
 GitHub cache, and invokes the packaged CLI with `uv run --project --locked`.
 Its virtual environment and uv download cache stay under `RUNNER_TEMP`; the
 caller repository is not used for action runtime state.
@@ -172,7 +179,7 @@ put credentials in declared evidence or lockfile locators.
 Summary-derived action outputs are published only when the generation manifest
 matches the BOM, warning report, and summary files from the current run.
 
-Use `@v0` for compatible 0.x updates, or pin the exact `@v0.7.1` tag when a
+Use `@v0` for compatible 0.x updates, or pin the exact `@v0.8.2` tag when a
 workflow needs release reproducibility. GitHub-enforced immutable releases
 apply to versions published after `v0.2.0`.
 
@@ -193,7 +200,7 @@ uv run --python 3.12 python scripts/verify_github_action.py
 Post-release verification:
 
 ```powershell
-$env:RELEASE_VERSION = "0.7.1"
+$env:RELEASE_VERSION = "0.8.2"
 $env:PUBLISH_RUN_ID = "<successful-publish-run-id>"
 $env:SMOKE_RUN_ID = "<successful-exact-version-action-smoke-run-id>"
 uv run --python 3.12 python scripts/verify_release.py --version $env:RELEASE_VERSION --publish-run-id $env:PUBLISH_RUN_ID --smoke-run-id $env:SMOKE_RUN_ID
